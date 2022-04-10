@@ -1,0 +1,13 @@
+INSERT INTO `people` (`surname`, `name`, `age`, `phone`, `mail`) VALUES ('Tsar', 'Yana', 21, '+375296874115', 'yana@gmail.com');
+INSERT INTO `people` (`surname`, `name`, `age`, `phone`, `mail`) VALUES ('Tsar', 'Kate', 21, '+375296874115', 'yana@gmail.com');
+
+INSERT INTO `users` (`login`, `password`, `role`, `person_id`) VALUES ('admin', 'admin', 'Admin', 1);
+INSERT INTO `users` (`login`, `password`, `role`, `person_id`) VALUES ('user', 'user', 'User', 2);
+
+INSERT INTO `companies` (`company_name`, `company_country`) VALUES ("BMW", "Германия");
+INSERT INTO `companies` (`company_name`, `company_country`) VALUES ("Nissan", "Япония");
+INSERT INTO `companies` (`company_name`, `company_country`) VALUES ("Skoda", "Чехия");
+
+INSERT INTO `cars` (`name`, `year`, `distance`, `fuel`, `fuel_consumption`, `price`, `company_id`) VALUES ("Kodiaq", 2021, 50, "Бензин", 5, 20000, 3);
+INSERT INTO `cars` (`name`, `year`, `distance`, `fuel`, `fuel_consumption`, `price`, `company_id`) VALUES ("Rapid", 2018, 80, "Бензин", 5, 10000, 3);
+

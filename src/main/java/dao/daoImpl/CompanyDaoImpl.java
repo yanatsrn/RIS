@@ -1,13 +1,13 @@
-package daoImpl;
+package dao.daoImpl;
 
-import com.mysql.cj.jdbc.exceptions.SQLError;
 import dao.CompanyDao;
 import entity.Company;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import sessionFactory.SessionFactoryImpl;
-
-import java.sql.SQLException;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.List;
 
 public class CompanyDaoImpl implements CompanyDao {
@@ -20,9 +20,9 @@ public class CompanyDaoImpl implements CompanyDao {
         boolean isAdded = false;
         try {
             Session session = SessionFactoryImpl.getSessionFactory().openSession();
-            Transaction tx1 = session.beginTransaction();
+            Transaction tx = session.beginTransaction();
             session.save(company);
-            tx1.commit();
+            tx.commit();
             session.close();
             isAdded = true;
         }
@@ -66,6 +66,46 @@ public class CompanyDaoImpl implements CompanyDao {
             System.out.println("Exception: " + e);
         }
         return isDeleted;
+    }
+
+    @Override
+    public Company findCompanyById(int id) {
+        Company company = null;
+        try {
+            Session session = SessionFactoryImpl.getSessionFactory().openSession();
+            Transaction tx = session.beginTransaction();
+            CriteriaBuilder cb = session.getCriteriaBuilder();
+            CriteriaQuery<Company> cr = cb.createQuery(Company.class);
+            Root<Company> root = cr.from(Company.class);
+            cr.select(root).where(cb.equal(root.get("companyId"), id));
+            company = session.createQuery(cr).getSingleResult();
+            tx.commit();
+            session.close();
+        }
+        catch (NoClassDefFoundError e) {
+            System.out.println("Exception: " + e);
+        }
+        return company;
+    }
+
+    @Override
+    public Company findCompanyByName(String name) {
+        Company company = null;
+        try {
+            Session session = SessionFactoryImpl.getSessionFactory().openSession();
+            Transaction tx = session.beginTransaction();
+            CriteriaBuilder cb = session.getCriteriaBuilder();
+            CriteriaQuery<Company> cr = cb.createQuery(Company.class);
+            Root<Company> root = cr.from(Company.class);
+            cr.select(root).where(cb.equal(root.get("companyName"), name));
+            company = session.createQuery(cr).getSingleResult();
+            tx.commit();
+            session.close();
+        }
+        catch (NoClassDefFoundError e) {
+            System.out.println("Exception: " + e);
+        }
+        return company;
     }
 
     @Override

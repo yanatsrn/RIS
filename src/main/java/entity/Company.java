@@ -19,7 +19,7 @@ public class Company {
     @Column(name = "company_country")
     private String companyCountry;
 
-    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Car> cars;
 
     public Company() {
@@ -65,7 +65,7 @@ public class Company {
 
     public void addCar(Car car) {
         car.setCompany(this);
-        cars.add(car);
+        this.cars.add(car);
     }
 
     @Override

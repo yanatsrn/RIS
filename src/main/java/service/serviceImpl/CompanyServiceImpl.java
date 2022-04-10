@@ -1,7 +1,7 @@
-package serviceImpl;
+package service.serviceImpl;
 
 import dao.CompanyDao;
-import daoImpl.CompanyDaoImpl;
+import dao.daoImpl.CompanyDaoImpl;
 import entity.Company;
 import exception.ShowException;
 import org.hibernate.HibernateError;
@@ -64,5 +64,29 @@ public class CompanyServiceImpl implements CompanyService {
             ShowException.showNotice(e);
         }
         return companies;
+    }
+
+    @Override
+    public Company findCompanyById(int id) {
+        Company company = null;
+        try {
+            company = companyDao.findCompanyById(id);
+        }
+        catch (HibernateError e) {
+            ShowException.showNotice(e);
+        }
+        return company;
+    }
+
+    @Override
+    public Company findCompanyByName(String name) {
+        Company company = null;
+        try {
+            company = companyDao.findCompanyByName(name);
+        }
+        catch (HibernateError e) {
+            ShowException.showNotice(e);
+        }
+        return company;
     }
 }

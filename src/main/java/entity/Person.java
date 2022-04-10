@@ -1,4 +1,5 @@
 package entity;
+
 import javax.persistence.*;
 
 @Entity
@@ -7,32 +8,37 @@ public class Person {
 
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
-    @Column(name = "person_id")
+    @Column (name = "person_id")
     private int personId;
 
-    @Column(name = "surname")
+    @Column
     private String surname;
 
-    @Column(name = "name")
+    @Column
     private String name;
 
-    @Column(name = "age")
+    @Column
     private int age;
 
-    @Column(name = "phone")
+    @Column
     private String phone;
 
-    @Column(name = "mail")
+    @Column
     private String mail;
 
-    public Person() {}
-    //todo MappingException
+    @OneToOne(mappedBy = "person", cascade = CascadeType.ALL, orphanRemoval = true)
+    private User user;
+
+    public Person() {
+    }
+
     public Person(String surname, String name, int age, String phone, String mail) {
         this.surname = surname;
         this.name = name;
         this.age = age;
         this.phone = phone;
         this.mail = mail;
+        user = new User();
     }
 
     public int getPersonId() {
@@ -83,11 +89,23 @@ public class Person {
         this.mail = mail;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void addUser(User newUser) {
+        newUser.setPerson(this);
+        user = newUser;
+    }
+
     @Override
     public String toString() {
         return "Person{" +
-                "personId=" + personId +
-                ", surname='" + surname + '\'' +
+                "surname='" + surname + '\'' +
                 ", name='" + name + '\'' +
                 ", age=" + age +
                 ", phone='" + phone + '\'' +

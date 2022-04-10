@@ -6,6 +6,7 @@ import javax.persistence.*;
 public class User {
 
     @Id
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
     private int userId;
 
@@ -16,20 +17,24 @@ public class User {
     private String password;
 
     @Column
-    private Role role;
+    private String role;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @MapsId
+    @OneToOne
+    @JoinColumn(name = "person_id")
     private Person person;
 
     public User() {
     }
 
-    public User(String login, String password, Role role, Person person) {
+    public User(String login, String password) {
+        this.login = login;
+        this.password = password;
+    }
+
+    public User(String login, String password, String role) {
         this.login = login;
         this.password = password;
         this.role = role;
-        this.person = person;
     }
 
     public int getUserId() {
@@ -56,11 +61,11 @@ public class User {
         this.password = password;
     }
 
-    public Role getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
+    public void setRole(String role) {
         this.role = role;
     }
 
@@ -79,7 +84,6 @@ public class User {
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 ", role=" + role +
-                ", person=" + person +
                 '}';
     }
 }
